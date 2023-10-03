@@ -17,4 +17,21 @@ class OutputMessage
             $player->getName() . 'は' . 'チップを' . $player->getChipsAmount() . 'ドル所有しています。' . PHP_EOL .
             'ベットする額を所有しているチップ以下で(10・30・50・100・500・1000)の中の数値から半角数字で入力してください。' . PHP_EOL;
     }
+
+    public static function getResultMessage(Player $player): string
+    {
+        $message = '';
+        switch ($player->getStatus()) {
+            case $player::WIN :
+                $message .= $player->getName() . 'の勝ちです。' . PHP_EOL;
+            break;
+            case $player::LOSE :
+                $message .= $player->getName() . 'の負けです。' . PHP_EOL;
+            break;
+            case $player::DRAW:
+                $message .= $player->getName() . 'の引き分けです。' . PHP_EOL;
+            break;
+        }
+        return $message;
+    }
 }

@@ -13,5 +13,5 @@ $dealer = new Dealer(
     new Judge(),
 );
 $deck = new Deck();
-$game = new Game($dealer, $deck);
+$game = new Game('win', $dealer, $deck);
 $game->start();

@@ -14,19 +14,24 @@ class Game
     private Dealer $dealer;        // ゲームのディーラーを保持します。
     private Deck $deck;            // ゲームのデッキを保持します。
     private GamePlayer $gamePlayer; // ゲームプレイヤーを保持します。
+
+    private string $resultGame; // 1段階目はゲームの結果をインスタンスに引数として送ってやるので、任意の結果を受け取る
     private int $currentNumOfGames; // 現在のゲーム回数を保持します。
 
     /**
      * Game クラスのコンストラクタ
      *
+     * @param string $resultGame あなたの勝敗結果
      * @param Dealer $dealer ゲームのディーラー
      * @param Deck $deck ゲームのデッキ
      */
-    public function __construct(Dealer $dealer, Deck $deck)
+    public function __construct(string $resultGame, Dealer $dealer, Deck $deck)
     {
+        $this->resultGame = $resultGame;
         $this->dealer = $dealer;
         $this->deck = $deck;
         $this->gamePlayer = new GamePlayer('あなた');
+        $this->currentNumOfGames = 0;
     }
 
     /**
@@ -51,10 +56,14 @@ class Game
 
     /**
      * ゲームを開始します。
+     *
+     * @return void
      */
     public function start(): void
     {
         $this->setBetAmount();
+        $this->resultGame();
+
     }
 
     /**
@@ -68,7 +77,7 @@ class Game
         echo OutputMessage::getBetAmountMessage($this->gamePlayer);
         $inputNum = '';
 
-        // ユーザーからの入力を待ちます
+        // ユーザーからの入力を待つ
         while ($inputNum === '') {
             $inputNum = trim(fgets(STDIN));
 
@@ -84,5 +93,17 @@ class Game
                 $inputNum = '';
             }
         }
+    }
+
+    public function resultGame()
+    {
+        $this->gamePlayer->changeStatus($this->resultGame);
+        echo OutputMessage::getResultMessage($this->gamePlayer);
+
+    }
+
+    public function resultCalcChips()
+    {
+        $this->dealer->getChipCalculator()->calcChips($this->gamePlayer);
     }
 }

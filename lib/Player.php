@@ -5,13 +5,18 @@
  */
 class Player
 {
+    public const WIN = 'win';
+    public const LOSE = 'lose';
+    public const DRAW = 'draw';
+
     public const INITIAL_CHIP_AMOUNT = 500; // 初期のチップ額
     public const INITIAL_BET_AMOUNT = 0;   // 初期のベット額
 
-    private $name;           // プレイヤーの名前
+    private string $name;           // プレイヤーの名前
     private int $chipsAmount; // プレイヤーのチップ額
 
     private int $betAmount;   // プレイヤーのベット額
+    private string $status;   // プレイヤーのHIT STAND BURST WIN LOSE DRAW のステータス
 
     /**
      * Player クラスのコンストラクタ
@@ -23,6 +28,7 @@ class Player
         $this->name = $name;
         $this->chipsAmount = self::INITIAL_CHIP_AMOUNT;
         $this->betAmount = self::INITIAL_BET_AMOUNT;
+        $this->status = self::WIN;
     }
 
     /**
@@ -55,6 +61,11 @@ class Player
         return $this->betAmount;
     }
 
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
     /**
      * プレイヤーのチップ額を変更します。
      *
@@ -75,5 +86,16 @@ class Player
     public function changeBetAmount(int $chipsAmount): void
     {
         $this->betAmount += $chipsAmount;
+    }
+
+    /**
+     * プレイヤーのステータスを変更します。
+     *
+     * @param string $status 変更するステータス
+     * @return void
+     */
+    public function changeStatus(string $status): void
+    {
+        $this->status = $status;
     }
 }
